@@ -1,19 +1,19 @@
 ## add code for data class here
 class Data:
     def __init__(self, filepath):
-        self.filepath = filepath  # saves the file path that is used in other funtions 
+        self.filepath = filepath  # saves the file path that is used in other funtions
         
-    def make_df(self):
         import pandas as pd
-        dataframe = pd.read_csv(self.filepath, index_col = "time", parse_dates = True)  # reads csv file and makes a dataframe
-        return dataframe  # returns the produced dataframe
+        df = pd.read_csv(filepath, index_col = "time", parse_dates = True)  # makes a dataframe with data in it
+        self.data = df  # saving the new dataframe
 
     def plot(self, title):
         import matplotlib.pyplot as plt
         import numpy as np  
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
-        plotdata = self.make_df() # make the data frame for the data to plot using other funtion within the class
+        plotdata = self.data
+        # make the data frame for the data to plot using other funtion within the class
         plt.plot(plotdata)  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
         ax.set_ylabel("mf")  # set y label
