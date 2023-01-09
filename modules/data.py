@@ -54,6 +54,24 @@ class Data:
             self.units = "Parts per billion"
         elif units_extract == "ppm":
             self.units = "Parts per million"
+            
+        # code which extracts calibration scale using filepath
+        
+        self.calibrationscale = ""
+        calscale_extract = ""
+        
+        # code which uses the species_extract to extract the calibration scale from the species info file 
+        if species_extract == "ch4":
+            calscale_extract = df_2["scale"].iloc[1]
+        elif species_extract == "n2o":
+            calscale_extract = df_2["scale"].iloc[2]
+        elif species_extract == "co2":
+            calscale_extract = df_2["scale"].iloc[0]
+            
+        if calscale_extract == "noaa":
+            self.calibrationscale = "National Oceanic and Atmospheric Administration, NOAA"
+        if calscale_extract == "sio":
+            self.calibrationscale = "Scripps Institution of Oceanography, SIO"
 
     def plot(self, title):
         import matplotlib.pyplot as plt
