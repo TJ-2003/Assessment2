@@ -15,8 +15,19 @@ class Data:
         elif sitecode_extract == "tac":
             self.sitecode = "TAC: Tacolneston, East Anglia"
             
+        # code which extracts the species from the filepath:
         
-        self.species = filepath[9]+filepath[10]+filepath[11]
+        self.species = "" # set the species to nothing to be reassigned 
+        
+        species_extract = filepath[9]+filepath[10]+filepath[11]
+        
+        # sets self.species to name of the species the data is for
+        if species_extract == "ch4":
+            self.species = "Methane"
+        elif species_extract == "co2":
+            self.species = "Carbon dioxide"
+        elif species_extract == "n2o":
+            self.species = "Nitrous oxide"
         
         import pandas as pd
         df = pd.read_csv(filepath, index_col = "time", parse_dates = True)  # makes a dataframe with data in it
