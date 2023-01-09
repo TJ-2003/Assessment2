@@ -1,7 +1,8 @@
 ## add code for data class here
 class Data:
-    def __init__(self, filepath):
+    def __init__(self, filepath, speciesfile):
         self.filepath = filepath  # saves the file path that is used in other funtions
+        self.speciesfile = speciesfile
         
         # code which extracts the site code from the filepath:
         
@@ -32,6 +33,27 @@ class Data:
         import pandas as pd
         df = pd.read_csv(filepath, index_col = "time", parse_dates = True)  # makes a dataframe with data in it
         self.data = df  # saving the new dataframe
+        
+        df_2 = pd.read_csv(speciesfile, index_col = "species")  # makes a dataframe with species info
+        self.speciesinfo = df_2
+        
+        # code which extracts units of measurements using filepath
+        
+        self.units = ""
+        units_extract = ""
+        
+        # code which uses the species_extract to extract the units from the species info file 
+        if species_extract == "ch4":
+            units_extract = df_2["units"].iloc[1]
+        elif species_extract == "n2o":
+            units_extract = df_2["units"].iloc[2]
+        elif species_extract == "co2":
+            units_extract = df_2["units"].iloc[0]
+        
+        if units_extract == "ppb":
+            self.units = "Parts per billion"
+        elif units_extract == "ppm":
+            self.units = "Parts per million"
 
     def plot(self, title):
         import matplotlib.pyplot as plt
@@ -46,4 +68,3 @@ class Data:
         ax.set_xlabel("Time")  # set x label
         ax.set_title(title)  #  set the title of the plot
         plt.show()  # display the plot
-        
