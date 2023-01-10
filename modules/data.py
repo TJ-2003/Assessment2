@@ -1,25 +1,25 @@
 ## add code for data class here
 class Data:
     def __init__(self, filepath, speciesfile):
-        self.filepath = filepath  # saves the file path that is used in other funtions
+        import pandas as pd 
+        import numpy as np 
+        import matplotlib.pyplot as plt
+        
+        self.filepath = filepath  # saves the file paths
         self.speciesfile = speciesfile
         
         # code which extracts the site code from the filepath:
-        
         self.sitecode = ""  # set the sitecode to nothing to be reassigned
-        
         sitecode_extract = filepath[5]+filepath[6]+filepath[7]  # selects the characters from the filepath string which corresponds to the sitecode
         
         # sets self.sitecode to give full description of site
         if sitecode_extract == "mhd": 
-            self.sitecode = "MHD: Mace Head, W. coast of the Republic of Ireland ect."
+            self.sitecode = "MHD: Mace Head"
         elif sitecode_extract == "tac":
-            self.sitecode = "TAC: Tacolneston, East Anglia"
+            self.sitecode = "TAC: Tacolneston"
             
         # code which extracts the species from the filepath:
-        
         self.species = "" # set the species to nothing to be reassigned 
-        
         species_extract = filepath[9]+filepath[10]+filepath[11]
         
         # sets self.species to name of the species the data is for
@@ -30,7 +30,7 @@ class Data:
         elif species_extract == "n2o":
             self.species = "Nitrous oxide"
         
-        import pandas as pd
+        # making dataframes
         df = pd.read_csv(filepath, index_col = "time", parse_dates = True)  # makes a dataframe with data in it
         self.data = df  # saving the new dataframe
         
@@ -38,7 +38,6 @@ class Data:
         self.speciesinfo = df_2
         
         # code which extracts units of measurements using filepath
-        
         self.units = ""
         units_extract = ""
         
@@ -56,7 +55,6 @@ class Data:
             self.units = "Parts per million"
             
         # code which extracts calibration scale using filepath
-        
         self.calibrationscale = ""
         calscale_extract = ""
         
@@ -69,35 +67,32 @@ class Data:
             calscale_extract = df_2["scale"].iloc[0]
             
         if calscale_extract == "noaa":
-            self.calibrationscale = "National Oceanic and Atmospheric Administration, NOAA"
+            self.calibrationscale = "National Oceanic and Atmospheric Administration"
         if calscale_extract == "sio":
-            self.calibrationscale = "Scripps Institution of Oceanography, SIO"
+            self.calibrationscale = "Scripps Institution of Oceanography"
     
     # code which calculates the daily average of the data
-    
     def calculate_daily_average(self):
-        
-        daily_average = self.data.resample('D', origin='start_day').mean()
-        
+        daily_average = self.data.resample('D', origin = 'start_day').mean()
         return daily_average
+    
     # code which calculates the monthly average of the data
-    
     def calculate_monthly_average(self):
-        
         monthly_average = self.data.resample('M').mean()
+        return monthly_average        
         
-        return monthly_average
-    
-    def plot(self, title):
+## works:    
+    def plot(self, dataframe, title):
         import matplotlib.pyplot as plt
         import numpy as np  
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
-        plotdata = self.data
-        # make the data frame for the data to plot using other funtion within the class
-        plt.plot(plotdata)  # Plot the chart
+        plotdata = dataframe.data # make the data frame for the data to plot using other funtion within the class
+        
+        plt.plot(plotdata, label = dataframe.sitecode)  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
-        ax.set_ylabel("mf")  # set y label
+        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
         ax.set_title(title)  #  set the title of the plot
+        plt.legend(loc = "upper left")
         plt.show()  # display the plot
