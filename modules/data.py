@@ -72,7 +72,22 @@ class Data:
             self.calibrationscale = "National Oceanic and Atmospheric Administration, NOAA"
         if calscale_extract == "sio":
             self.calibrationscale = "Scripps Institution of Oceanography, SIO"
-
+    
+    # code which calculates the daily average of the data
+    
+    def calculate_daily_average(self):
+        
+        daily_average = self.data.resample('D', origin='start_day').mean()
+        
+        return daily_average
+    # code which calculates the monthly average of the data
+    
+    def calculate_monthly_average(self):
+        
+        monthly_average = self.data.resample('M').mean()
+        
+        return monthly_average
+    
     def plot(self, title):
         import matplotlib.pyplot as plt
         import numpy as np  
