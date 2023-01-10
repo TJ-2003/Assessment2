@@ -5,6 +5,8 @@ class Data:
         import numpy as np 
         import matplotlib.pyplot as plt
         
+        
+        
         self.filepath = filepath  # saves the file paths
         self.speciesfile = speciesfile
         
@@ -76,14 +78,52 @@ class Data:
         daily_average = self.data.resample('D', origin = 'start_day').mean()
         return daily_average
     
+    def plot_daily_average(self, dataframe):
+        plotdata_daily = self.data
+        daily_average_plotting_data = plotdata_daily.resample('D', origin = 'start_day').mean()
+        
+        import matplotlib.pyplot as plt
+        import numpy as np
+        fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
+        
+        plt.plot(daily_average_plotting_data, label = dataframe.sitecode, color = "blue")  # Plot the chart
+        plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
+        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
+        ax.set_xlabel("Time")  # set x label
+        ax.set_title(f"daily average Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        plt.legend(loc = "upper left")
+        plt.show()  # display the plot
+    
+    def multiplot_daily_average(self):
+        pass
+    
     # code which calculates the monthly average of the data
     def calculate_monthly_average(self):
         monthly_average = self.data.resample('M').mean()
-        return monthly_average             
+        return monthly_average
+    
+    def plot_monthly_average(self, dataframe):
+        plotdata_monthly = self.data
+        monthly_average_plotting_data = plotdata_monthly.resample('M').mean()
+        
+        import matplotlib.pyplot as plt
+        import numpy as np
+        fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
+        
+        plt.plot(monthly_average_plotting_data, label = dataframe.sitecode, color = "blue")  # Plot the chart
+        plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
+        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
+        ax.set_xlabel("Time")  # set x label
+        ax.set_title(f"monthly average Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        plt.legend(loc = "upper left")
+        plt.show()  # display the plot
+        
+    def multiplot_monthly_average(self):
+        pass
     
     def plot(self, dataframe):
         import matplotlib.pyplot as plt
-        import numpy as np  
+        import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
         plotdata = dataframe.data # make the data frame for the data to plot using other funtion within the class
@@ -98,7 +138,7 @@ class Data:
         
     def multiplot(self, dataframe1, dataframe2):
         import matplotlib.pyplot as plt
-        import numpy as np  
+        import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))
         
         plotdata1 = dataframe1.data # creating a variable with two dataframes needed for plotting
