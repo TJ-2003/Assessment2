@@ -79,20 +79,37 @@ class Data:
     # code which calculates the monthly average of the data
     def calculate_monthly_average(self):
         monthly_average = self.data.resample('M').mean()
-        return monthly_average        
-        
-## works:    
-    def plot(self, dataframe, title):
+        return monthly_average             
+    
+    def plot(self, dataframe):
         import matplotlib.pyplot as plt
         import numpy as np  
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
         plotdata = dataframe.data # make the data frame for the data to plot using other funtion within the class
         
-        plt.plot(plotdata, label = dataframe.sitecode)  # Plot the chart
+        plt.plot(plotdata, label = dataframe.sitecode, color = "blue")  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
         ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(title)  #  set the title of the plot
+        ax.set_title(f"Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        plt.legend(loc = "upper left")
+        plt.show()  # display the plot
+        
+    def multiplot(self, dataframe1, dataframe2):
+        import matplotlib.pyplot as plt
+        import numpy as np  
+        fig, ax = plt.subplots(figsize = (8, 5))
+        
+        plotdata1 = dataframe1.data # creating a variable with two dataframes needed for plotting
+        plotdata2 = dataframe2.data
+        
+        # plot both data sets:
+        plt.plot(plotdata1, label = f"{dataframe1.sitecode}, {dataframe1.species}, units = {dataframe1.units}", color = "blue")
+        plt.plot(plotdata2, label = f"{dataframe2.sitecode}, {dataframe2.species}, units = {dataframe2.units}", color = "red", alpha = 0.5)
+        plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
+        ax.set_ylabel(f"Mole fraction of gas species")  # set y label
+        ax.set_xlabel("Time")  # set x label
+        ax.set_title("Mole fraction of gas species' over a year")
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
