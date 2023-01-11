@@ -164,7 +164,7 @@ class Data:
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
         ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(f"Mole fraction of {self.species} over a year" )  #  set the title of the plot
+        ax.set_title(f"Mole fraction of {self.species} hourly over a year" )  #  set the title of the plot
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
         
