@@ -86,12 +86,27 @@ class Data:
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
         ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(f"daily average Mole fraction of {self.species} over a year" )  #  set the title of the plot
+        ax.set_title(f"Daily average Mole fraction of {self.species} over a year" )  #  set the title of the plot
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
     
-    def multiplot_daily_average(self):
-        pass
+    def multiplot_daily_average(self, dataset2):
+        import matplotlib.pyplot as plt
+        import numpy as np
+        fig, ax = plt.subplots(figsize = (8, 5))
+        
+        plotdata1 = self.daily_average # creating a variable with two dataframes needed for plotting
+        plotdata2 = dataset2.daily_average
+        
+        # plot both data sets:
+        plt.plot(plotdata1, label = f"{self.sitecode}, {self.species}, units = {self.units}", color = "blue")
+        plt.plot(plotdata2, label = f"{dataset2.sitecode}, {dataset2.species}, units = {dataset2.units}", color = "red", alpha = 0.5)
+        plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
+        ax.set_ylabel(f"Mole fraction of gas species")  # set y label
+        ax.set_xlabel("Time")  # set x label
+        ax.set_title("Daily average mole fraction of gas species' over a year")
+        plt.legend(loc = "upper left")
+        plt.show()  # display the plot
     
     def plot_monthly_average(self):
         plotdata_monthly = self.monthly_average
@@ -108,8 +123,23 @@ class Data:
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
         
-    def multiplot_monthly_average(self):
-        pass
+    def multiplot_monthly_average(self, dataset2):
+        import matplotlib.pyplot as plt
+        import numpy as np
+        fig, ax = plt.subplots(figsize = (8, 5))
+        
+        plotdata1 = self.monthly_average # creating a variable with two dataframes needed for plotting
+        plotdata2 = dataset2.monthly_average
+        
+        # plot both data sets:
+        plt.plot(plotdata1, label = f"{self.sitecode}, {self.species}, units = {self.units}", color = "blue")
+        plt.plot(plotdata2, label = f"{dataset2.sitecode}, {dataset2.species}, units = {dataset2.units}", color = "red", alpha = 0.5)
+        plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
+        ax.set_ylabel(f"Mole fraction of gas species")  # set y label
+        ax.set_xlabel("Time")  # set x label
+        ax.set_title("Monthly average mole fraction of gas species' over a year")
+        plt.legend(loc = "upper left")
+        plt.show()  # display the plot
     
     def plot(self):
         import matplotlib.pyplot as plt
