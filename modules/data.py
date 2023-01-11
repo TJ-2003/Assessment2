@@ -5,8 +5,6 @@ class Data:
         import numpy as np 
         import matplotlib.pyplot as plt
         
-        
-        
         self.filepath = filepath  # saves the file paths
         self.speciesfile = speciesfile
         
@@ -38,6 +36,10 @@ class Data:
         
         df_2 = pd.read_csv(speciesfile, index_col = "species")  # makes a dataframe with species info
         self.speciesinfo = df_2
+        
+        # makes dataframes for the monthly and daily averages when making an instance of the data class
+        self.daily_average = self.data.resample("D", origin = "start_day").mean()
+        self.monthly_average = self.data.resample("M").mean()
         
         # code which extracts units of measurements using filepath
         self.units = ""
@@ -73,80 +75,68 @@ class Data:
         if calscale_extract == "sio":
             self.calibrationscale = "Scripps Institution of Oceanography"
     
-    # code which calculates the daily average of the data
-    def calculate_daily_average(self):
-        daily_average = self.data.resample('D', origin = 'start_day').mean()
-        return daily_average
-    
-    def plot_daily_average(self, dataframe):
-        plotdata_daily = self.data
-        daily_average_plotting_data = plotdata_daily.resample('D', origin = 'start_day').mean()
+    def plot_daily_average(self):
+        plotdata_daily = self.daily_average
         
         import matplotlib.pyplot as plt
         import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
-        plt.plot(daily_average_plotting_data, label = dataframe.sitecode, color = "blue")  # Plot the chart
+        plt.plot(plotdata_daily, label = self.sitecode, color = "blue")  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
-        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
+        ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(f"daily average Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        ax.set_title(f"daily average Mole fraction of {self.species} over a year" )  #  set the title of the plot
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
     
     def multiplot_daily_average(self):
         pass
     
-    # code which calculates the monthly average of the data
-    def calculate_monthly_average(self):
-        monthly_average = self.data.resample('M').mean()
-        return monthly_average
-    
-    def plot_monthly_average(self, dataframe):
-        plotdata_monthly = self.data
-        monthly_average_plotting_data = plotdata_monthly.resample('M').mean()
+    def plot_monthly_average(self):
+        plotdata_monthly = self.monthly_average
         
         import matplotlib.pyplot as plt
         import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
-        plt.plot(monthly_average_plotting_data, label = dataframe.sitecode, color = "blue")  # Plot the chart
+        plt.plot(plotdata_monthly, label = self.sitecode, color = "blue")  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
-        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
+        ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(f"monthly average Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        ax.set_title(f"monthly average Mole fraction of {self.species} over a year" )  #  set the title of the plot
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
         
     def multiplot_monthly_average(self):
         pass
     
-    def plot(self, dataframe):
+    def plot(self):
         import matplotlib.pyplot as plt
         import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         
-        plotdata = dataframe.data # make the data frame for the data to plot using other funtion within the class
+        plotdata = self.data # make the data frame for the data to plot using other funtion within the class
         
-        plt.plot(plotdata, label = dataframe.sitecode, color = "blue")  # Plot the chart
+        plt.plot(plotdata, label = self.sitecode, color = "blue")  # Plot the chart
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
-        ax.set_ylabel(f"Mole fraction of {dataframe.species} in {dataframe.units}")  # set y label
+        ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")  # set y label
         ax.set_xlabel("Time")  # set x label
-        ax.set_title(f"Mole fraction of {dataframe.species} over a year" )  #  set the title of the plot
+        ax.set_title(f"Mole fraction of {self.species} over a year" )  #  set the title of the plot
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
         
-    def multiplot(self, dataframe1, dataframe2):
+    def multiplot(self, dataset2):
         import matplotlib.pyplot as plt
         import numpy as np
         fig, ax = plt.subplots(figsize = (8, 5))
         
-        plotdata1 = dataframe1.data # creating a variable with two dataframes needed for plotting
-        plotdata2 = dataframe2.data
+        plotdata1 = self.data # creating a variable with two dataframes needed for plotting
+        plotdata2 = dataset2.data
         
         # plot both data sets:
-        plt.plot(plotdata1, label = f"{dataframe1.sitecode}, {dataframe1.species}, units = {dataframe1.units}", color = "blue")
-        plt.plot(plotdata2, label = f"{dataframe2.sitecode}, {dataframe2.species}, units = {dataframe2.units}", color = "red", alpha = 0.5)
+        plt.plot(plotdata1, label = f"{self.sitecode}, {self.species}, units = {self.units}", color = "blue")
+        plt.plot(plotdata2, label = f"{dataset2.sitecode}, {dataset2.species}, units = {dataset2.units}", color = "red", alpha = 0.5)
         plt.gcf().autofmt_xdate()  # auto formats the date for the x axis
         ax.set_ylabel(f"Mole fraction of gas species")  # set y label
         ax.set_xlabel("Time")  # set x label
