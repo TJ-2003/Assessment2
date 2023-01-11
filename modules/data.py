@@ -4,6 +4,18 @@ class Data:
         import pandas as pd 
         import numpy as np 
         import matplotlib.pyplot as plt
+        import sys
+        
+        # error check for filepath and species file path type that exits the script if the filepaths are not a strings
+        if type(filepath) != type("error test"):
+            sys.exit('filepath must be a string with "" around it' )
+        else:
+            pass
+        
+        if type(speciesfile) != type("error test"):
+            sys.exit('species info filepath must be a string with "" around it' )
+        else:
+            pass
         
         self.filepath = filepath  # saves the file paths
         self.speciesfile = speciesfile
