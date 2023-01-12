@@ -185,3 +185,39 @@ class Data:
         ax.set_title("Mole fraction of gas species' over a year")
         plt.legend(loc = "upper left")
         plt.show()  # display the plot
+        
+    def residual_plot_hour(self):
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        import numpy as np 
+        
+        residual_plot_data = self.data
+        residual_plot_data["hour"] = residual_plot_data.index.hour
+        fig, ax = plt.subplots(figsize = (8, 5))
+        sns.residplot(ax = ax, data = residual_plot_data, x = "hour", y = "mf", order = 1) 
+        ax.set_xlabel("Time/ Hour of the day")
+        ax.set_ylabel(f"Mole fraction of {self.species}")
+        
+    def residual_plot_day(self):
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        import numpy as np 
+        
+        residual_plot_data = self.data
+        residual_plot_data["day"] = residual_plot_data.index.day
+        fig, ax = plt.subplots(figsize = (8, 5))
+        sns.residplot(ax = ax, data = residual_plot_data, x = "day", y = "mf", order = 1) 
+        ax.set_xlabel("Time/ Day of the month")
+        ax.set_ylabel(f"Mole fraction of {self.species}")
+        
+    def residual_plot_month(self):
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        import numpy as np 
+        
+        residual_plot_data = self.data
+        residual_plot_data["month"] = residual_plot_data.index.month
+        fig, ax = plt.subplots(figsize = (8, 5))
+        sns.residplot(ax = ax, data = residual_plot_data, x = "month", y = "mf", order = 1) 
+        ax.set_xlabel("Time/ month pf the year")
+        ax.set_ylabel(f"Mole fraction of {self.species}")
