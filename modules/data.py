@@ -221,3 +221,24 @@ class Data:
         sns.residplot(ax = ax, data = residual_plot_data, x = "month", y = "mf", order = 1) 
         ax.set_xlabel("Time/ month pf the year")
         ax.set_ylabel(f"Mole fraction of {self.species}")
+    
+    def baseline_estimate(self):
+        import pandas as pd
+        
+        self.baseline = self.data.resample("M").min()
+        return self.baseline
+         
+    
+    def baseline_plot(self):
+        import matplotlib.pyplot as plt
+        import numpy as np
+        import pandas as pd
+        
+        fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
+        self.baseline = self.baseline_estimate()       
+        ax.plot(self.data.index, self.data["mf"], label = self.sitecode)
+        ax.plot(self.baseline.index, self.baseline["mf"], label = "Baseline")
+        ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")
+        ax.set_xlabel("Time")
+        plt.legend(loc = "upper left")
+        plt.show()
