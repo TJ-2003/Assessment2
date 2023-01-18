@@ -225,7 +225,8 @@ class Data:
     def baseline_estimate(self):
         import pandas as pd
         
-        self.baseline = self.data.resample("M").min()
+        self.baseline = self.data
+        self.baseline = self.baseline.resample("M").quantile(q = 0.05, interpolation="linear")
         return self.baseline
          
     
