@@ -34,7 +34,7 @@ class Data:
         self.species = "" # set the species to nothing to be reassigned 
         species_extract = filepath[9]+filepath[10]+filepath[11]
         
-        # sets self.species to name of the species the data is for
+        # sets self.species to set the name of the species the data is for
         if species_extract == "ch4":
             self.species = "Methane"
         elif species_extract == "co2":
@@ -192,10 +192,10 @@ class Data:
         import numpy as np 
         
         residual_plot_data = self.data
-        residual_plot_data["hour"] = residual_plot_data.index.hour
+        residual_plot_data["hour"] = residual_plot_data.index.hour # making a new column in a separate data frame for plotting data
         fig, ax = plt.subplots(figsize = (8, 5))
-        sns.residplot(ax = ax, data = residual_plot_data, x = "hour", y = "mf", order = 1) 
-        ax.set_xlabel("Time/ Hour of the day")
+        sns.residplot(ax = ax, data = residual_plot_data, x = "hour", y = "mf", order = 1) # using seaborn to make a residuals plot
+        ax.set_xlabel("Time/ Hour of the day") # setting axis' labels
         ax.set_ylabel(f"Mole fraction of {self.species}")
         
     def residual_plot_day(self):
@@ -204,10 +204,10 @@ class Data:
         import numpy as np 
         
         residual_plot_data = self.data
-        residual_plot_data["day"] = residual_plot_data.index.day
+        residual_plot_data["day"] = residual_plot_data.index.day # making a new column in a separate data frame for plotting data
         fig, ax = plt.subplots(figsize = (8, 5))
-        sns.residplot(ax = ax, data = residual_plot_data, x = "day", y = "mf", order = 1) 
-        ax.set_xlabel("Time/ Day of the month")
+        sns.residplot(ax = ax, data = residual_plot_data, x = "day", y = "mf", order = 1) # using seaborn to make a residuals plot
+        ax.set_xlabel("Time/ Day of the month") # setting axis' labels
         ax.set_ylabel(f"Mole fraction of {self.species}")
         
     def residual_plot_month(self):
@@ -216,17 +216,17 @@ class Data:
         import numpy as np 
         
         residual_plot_data = self.data
-        residual_plot_data["month"] = residual_plot_data.index.month
+        residual_plot_data["month"] = residual_plot_data.index.month # making a new column in a separate data frame for plotting data
         fig, ax = plt.subplots(figsize = (8, 5))
-        sns.residplot(ax = ax, data = residual_plot_data, x = "month", y = "mf", order = 1) 
-        ax.set_xlabel("Time/ month pf the year")
+        sns.residplot(ax = ax, data = residual_plot_data, x = "month", y = "mf", order = 1) # using seaborn to make a residuals plot
+        ax.set_xlabel("Time/ month pf the year") # setting axis' labels
         ax.set_ylabel(f"Mole fraction of {self.species}")
     
     def baseline_estimate(self):
         import pandas as pd
-        
+        # funtion that selects the 5th perecentile of the data for each month 
         self.baseline = self.data
-        self.baseline = self.baseline.resample("M").quantile(q = 0.05, interpolation="linear")
+        self.baseline = self.baseline.resample("M").quantile(q = 0.05, interpolation="linear") # resampling the dataframe so that only the 5th percentile for each month is in there
         return self.baseline
          
     
@@ -237,8 +237,8 @@ class Data:
         
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         self.baseline = self.baseline_estimate()       
-        ax.plot(self.data.index, self.data["mf"], label = self.sitecode)
-        ax.plot(self.baseline.index, self.baseline["mf"], label = "Baseline")
+        ax.plot(self.data.index, self.data["mf"], label = self.sitecode) # plots original data 
+        ax.plot(self.baseline.index, self.baseline["mf"], label = "Baseline") # plots baseline
         ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")
         ax.set_xlabel("Time")
         plt.legend(loc = "upper left")
