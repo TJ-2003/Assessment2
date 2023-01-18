@@ -238,7 +238,7 @@ class Data:
         fig, ax = plt.subplots(figsize = (8, 5))  # produces the figure to put the plot onto
         self.baseline = self.baseline_estimate()       
         ax.plot(self.data.index, self.data["mf"], label = self.sitecode) # plots original data 
-        ax.plot(self.baseline.index, self.baseline["mf"], label = "Baseline") # plots baseline
+        ax.plot(self.baseline.index, self.baseline["mf"], label = "Baseline", color = "red") # plots baseline
         ax.set_ylabel(f"Mole fraction of {self.species} in {self.units}")
         ax.set_xlabel("Time")
         plt.legend(loc = "upper left")
